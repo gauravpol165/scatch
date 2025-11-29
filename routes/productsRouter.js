@@ -19,9 +19,12 @@ router.post("/create",upload.single("image"),async function(req,res){
         req.flash("success","Product created successfully");
         res.redirect("/owners/admin");
     }catch(err){
-       res.send(srr.message); 
+       res.send(err.message); 
     }
-    
+});
+
+router.get("/create-form",(req,res)=>{
+    res.render("createproducts");
 });
 
 module.exports=router;

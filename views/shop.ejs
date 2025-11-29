@@ -1,25 +1,24 @@
 <%- include('./partials/header') %>
 
-<% if (typeof success !== 'undefined' && success.length > 0) { %>
-    <div class="absolute top-5 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-md bg-blue-500 z-20">
-        <span class="inline-block mt-1 mb-1 text-white">
-            <%= success %>
-        </span>
-    </div>
+<% if (typeof success !== "undefined" && success.length > 0) { %>
+<div class="absolute top-5 left-1/2 -translate-x-1/2 -translate-y-1/2 p-3 rounded-md bg-blue-500 z-20">
+    <span class="inline-block mt-1 mb-1 text-white">
+        <%= success[0] %>
+    </span>
+</div>
 <% } %>
 
 <div class="w-full min-h-screen flex items-start px-6 lg:px-20 py-10 gap-10 bg-gray-50">
+
     <!-- LEFT SIDEBAR -->
     <div class="w-full lg:w-1/4 flex flex-col items-start bg-white rounded-lg shadow-md p-5">
-        <div class="flex items-center gap-2 w-full justify-between">
-            <h3 class="font-semibold text-gray-800">Sort by</h3>
-            <form action="/shop" method="get">
-                <select class="border px-2 py-1 rounded-md text-sm" name="sortby">
-                    <option value="popular">Popular</option>
-                    <option value="newest">Newest</option>
-                </select>
-            </form>
-        </div>
+        <h3 class="font-semibold text-gray-800">Sort by</h3>
+        <form action="/shop" method="get">
+            <select class="border px-2 py-1 rounded-md text-sm mt-2" name="sortby">
+                <option value="popular">Popular</option>
+                <option value="newest">Newest</option>
+            </select>
+        </form>
 
         <div class="flex flex-col mt-8 text-sm text-gray-700 w-full">
             <h4 class="font-semibold mb-2">Collections</h4>
@@ -40,101 +39,97 @@
         <h2 class="text-2xl font-semibold text-gray-800 mb-2">Products</h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-            <% products.forEach(function(product){ %>
-                <div class="product-card w-full bg-white rounded-lg shadow-md overflow-hidden flex flex-col"
-                     data-product-id="<%= product._id %>"
-                     data-bgcolor="<%= product.bgcolor %>"
-                     data-panelcolor="<%= product.panelcolor %>"
-                     data-textcolor="<%= product.textcolor %>">
+            <% products.forEach(product => { %>
 
-                    <!-- IMAGE -->
-                    <div class="product-image-wrapper w-full h-48 flex items-center justify-center">
-                        <img class="h-32 w-auto object-cover"
-                             src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
-                             alt="<%= product.name %>">
+            <div class="product-card w-full rounded-lg overflow-hidden shadow-md flex flex-col"
+                data-bgcolor="<%= product.bgcolor %>"
+                data-panelcolor="<%= product.panelcolor %>"
+                data-textcolor="<%= product.textcolor %>">
+                
+                <!-- IMAGE SECTION -->
+                <div class="product-image-wrapper w-full h-48 flex items-center justify-center">
+                    <img class="h-32 w-auto object-cover"
+                        src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
+                        alt="<%= product.name %>">
+                </div>
+
+                <!-- DETAILS SECTION -->
+                <div class="product-panel flex flex-col gap-3 px-4 py-3">
+                    <div>
+                        <h3 class="font-semibold truncate"><%= product.name %></h3>
+                        <h4 class="text-sm mt-1">₹ <%= product.price %></h4>
                     </div>
 
-                    <!-- INFO + CONTROLS -->
-                    <div class="product-panel flex flex-col gap-3 px-4 py-4">
-                        <div class="flex items-center justify-between">
-                            <div class="flex flex-col">
-                                <h3 class="font-semibold text-base truncate"><%= product.name %></h3>
-                                <h4 class="text-sm mt-1">₹ <%= product.price %></h4>
-                            </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <button type="button"
+                                    class="qty-minus w-7 h-7 flex items-center justify-center rounded-full bg-white text-gray-800 text-sm shadow hover:bg-gray-100">
+                                <i class="ri-subtract-line"></i>
+                            </button>
+                            
+                            <div class="qty-value px-3 py-1 rounded-md bg-white text-gray-900 text-sm font-semibold min-w-[2.5rem] text-center">1</div>
+                            
+                            <button type="button"
+                                    class="qty-plus w-7 h-7 flex items-center justify-center rounded-full bg-white text-gray-800 text-sm shadow hover:bg-gray-100">
+                                <i class="ri-add-line"></i>
+                            </button>
                         </div>
 
-                        <!-- QUANTITY + ADD TO CART -->
-                        <div class="flex items-center justify-between mt-1">
-                            <div class="flex items-center gap-2">
-                                <button type="button"
-                                        class="qty-minus w-7 h-7 flex items-center justify-center rounded-full bg-white text-gray-800 text-sm shadow hover:bg-gray-100">
-                                    <i class="ri-subtract-line"></i>
-                                </button>
-                                <div class="qty-value px-3 py-1 rounded-md bg-white text-gray-900 text-sm font-semibold min-w-[2.5rem] text-center">
-                                    1
-                                </div>
-                                <button type="button"
-                                        class="qty-plus w-7 h-7 flex items-center justify-center rounded-full bg-white text-gray-800 text-sm shadow hover:bg-gray-100">
-                                    <i class="ri-add-line"></i>
-                                </button>
-                            </div>
-
-                            <a class="add-to-cart-btn inline-flex items-center justify-center px-3 py-1.5 rounded-full bg-green-500 text-white text-xs font-semibold hover:bg-green-600 transition"
-                               href="/addtocart/<%- product._id %>">
-                                Add to Cart
-                            </a>
-                        </div>
+                        <a class="add-to-cart-btn inline-flex items-center justify-center px-3 py-1.5 rounded-full bg-green-500 text-white text-xs font-semibold hover:bg-green-600 transition"
+                           href="/addtocart/<%= product._id %>">
+                           Add to Cart
+                        </a>
                     </div>
                 </div>
+            </div>
+
             <% }) %>
         </div>
     </div>
+
 </div>
 
+
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const cards = document.querySelectorAll('.product-card');
+document.addEventListener("DOMContentLoaded", () => {
+    const cards = document.querySelectorAll(".product-card");
 
     cards.forEach(card => {
-        // apply dynamic colors from data-attributes (no CSS warnings)
-        const bg = card.dataset.bgcolor || '#f5f5f5';
-        const panel = card.dataset.panelcolor || '#ffffff';
-        const text = card.dataset.textcolor || '#111111';
+        const bg = card.dataset.bgcolor || "#f5f5f5";
+        const panel = card.dataset.panelcolor || "#ffffff";
+        const text = card.dataset.textcolor || "#111111";
 
-        const imgWrapper = card.querySelector('.product-image-wrapper');
-        const panelDiv = card.querySelector('.product-panel');
+        const imgArea = card.querySelector(".product-image-wrapper");
+        const panelArea = card.querySelector(".product-panel");
 
-        if (imgWrapper) imgWrapper.style.backgroundColor = bg;
-        if (panelDiv) {
-            panelDiv.style.backgroundColor = panel;
-            panelDiv.style.color = text;
+        if (imgArea) imgArea.style.backgroundColor = bg;
+        if (panelArea) {
+            panelArea.style.backgroundColor = panel;
+            panelArea.style.color = text;
         }
 
-        // quantity + add-to-cart logic
-        const plus = card.querySelector('.qty-plus');
-        const minus = card.querySelector('.qty-minus');
-        const valueEl = card.querySelector('.qty-value');
-        const addBtn = card.querySelector('.add-to-cart-btn');
-
         let qty = 1;
+        const plus = card.querySelector(".qty-plus");
+        const minus = card.querySelector(".qty-minus");
+        const valueEl = card.querySelector(".qty-value");
+        const addBtn = card.querySelector(".add-to-cart-btn");
 
-        if (plus) plus.addEventListener('click', () => {
+        if (plus) plus.addEventListener("click", () => {
             qty++;
-            valueEl.textContent = qty.toString();
+            valueEl.textContent = qty;
         });
 
-        if (minus) minus.addEventListener('click', () => {
+        if (minus) minus.addEventListener("click", () => {
             if (qty > 1) {
                 qty--;
-                valueEl.textContent = qty.toString();
+                valueEl.textContent = qty;
             }
         });
 
-        if (addBtn) addBtn.addEventListener('click', function (e) {
+        if (addBtn) addBtn.addEventListener("click", function(e) {
             e.preventDefault();
-            const baseHref = this.getAttribute('href').split('?')[0];
-            const newHref = baseHref + '?qty=' + qty;
-            window.location.href = newHref;
+            const base = this.getAttribute("href");
+            window.location.href = base + "?qty=" + qty;
         });
     });
 });

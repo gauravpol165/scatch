@@ -4,21 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Scatch</title>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="font-['helvetica_now_display']">
-    <nav class="w-full flex justify-between px-5 py-3">
-        <h3 class="text-xl">Scatch</h3>
-        <% var loggedin=typeof loggedin !== "undefined" ? loggedin:true %>
-        <% if(loggedin){ %>
-            <div class="flex gap-5">
-                <a href="/shop">Shop</a>
-                <a href="/cart">Cart</a>
-                <a href="">My Account</a>
-                <a class="text-red-600" href="/users/logout">Logout</a>
-            </div>
-        <% } %>
+    <nav class="w-full flex justify-between items-center px-5 py-3 shadow">
+        <a href="/" class="text-xl font-semibold">Scatch</a>
+
+        <div class="flex gap-5 items-center">
+
+            <!-- SHOW SHOP ONLY FOR NORMAL USERS -->
+            <% if (typeof token !== "undefined" && token) { %>
+                <a class="hover:text-blue-500" href="/shop">Shop</a>
+                <a class="hover:text-blue-500" href="/cart">Cart</a>
+            <% } %>
+
+            <!-- ADMIN SECTION -->
+            <% if (req.session && req.session.isOwner) { %>
+                <!-- Admin Logged In -->
+                <a class="px-4 py-2 rounded-md bg-green-500 text-white" href="/owners/admin">
+                    Dashboard
+                </a>
+                <a class="px-4 py-2 rounded-md bg-red-500 text-white" href="/owners/logout">
+                    Logout
+                </a>
+
+            <% } else { %>
+                <!-- Admin Not Logged In -->
+                <a class="px-4 py-2 rounded-md bg-blue-600 text-white" href="/owners/login">
+                    Admin Login
+                </a>
+            <% } %>
+
+            <!-- NORMAL USER AUTH -->
+            <% if (typeof token !== "undefined" && token) { %>
+                <a class="text-red-500" href="/users/logout">Logout</a>
+            <% } %>
+
+        </div>
     </nav>

@@ -1,113 +1,71 @@
 <%- include('./partials/header') %>
-    <div class="w-full h-screen flex items-start px-20 py-20">
-        <div class="w-[25%] flex h-screen flex-col items-start">
-            <div class="flex flex-col">
-                <a class="block w-fit mb-2" href="">All Products</a>
-                <a class="block w-fit mb-2" href="">Create new product</a>
+
+<div class="w-full min-h-screen flex items-start px-20 py-20 gap-10 bg-gray-50">
+
+    <!-- LEFT SIDEBAR -->
+    <div class="w-1/4 flex flex-col gap-4">
+        <a href="/owners/admin" class="block font-semibold text-gray-800 hover:text-blue-500">All Products</a>
+        <a href="/products/create-form" class="block font-semibold text-gray-800 hover:text-blue-500">Create New Product</a>
+    </div>
+
+    <!-- RIGHT CONTENT -->
+    <div class="w-3/4 flex flex-col gap-6">
+
+        <% if (success && success.length > 0) { %>
+            <div class="p-3 rounded-md bg-green-500 text-white">
+                <%= success[0] %>
             </div>
+        <% } %>
+
+        <% if (error && error.length > 0) { %>
+            <div class="p-3 rounded-md bg-red-500 text-white">
+                <%= error[0] %>
+            </div>
+        <% } %>
+
+        <div class="flex justify-between items-center">
+            <h2 class="text-2xl font-bold text-gray-900">
+                All Products ( <%= products.length %> )
+            </h2>
+            <a class="text-red-600 text-sm hover:text-red-700" href="/products/delete-all">
+                Delete All
+            </a>
         </div>
-        <div class="w-[75%] flex flex-col gap-5 h-screen">
-            <a class="text-red-500" href="">Delete all</a>
-            <div class="flex items-start gap-5">
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            
+            <% if(products.length === 0){ %>
+                <p class="text-gray-700">No products found. Please add some!</p>
+            <% } %>
+
+            <% products.forEach(product => { %>
+                <div class="rounded-lg shadow overflow-hidden border border-gray-200">
+
+                    <!-- IMAGE PANEL WITH DYNAMIC COLOR -->
+                    <div class="w-full h-40 flex items-center justify-center"
+                         style="background-color: '<%= product.panelcolor %>';">
+                        <img class="h-full object-contain"
+                             src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
+                             alt="<%= product.name %>">
+                    </div>
+
+                    <!-- PRODUCT DETAILS WITH DYNAMIC TEXT/BG COLOR -->
+                    <div class="p-4"
+                         style="background-color: '<%= product.bgcolor %>'; color: '<%= product.textcolor %>';">
+                        <h3 class="font-semibold"><%= product.name %></h3>
+                        <h4 class="text-sm">₹ <%= product.price %></h4>
+
+                        <a href="/products/delete/<%= product._id %>"
+                           class="text-red-600 text-sm hover:text-red-700 mt-2 inline-block">
+                            Delete
                         </a>
                     </div>
+
                 </div>
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="flex items-start gap-5">
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="w-60 bg-red-500">
-                    <div class="w-full h-52 bg-yellow-500"></div>
-                    <div class="flex justify-between items-center px-4 py-4">
-                        <div>
-                            <h3>Clinge Bag</h3>
-                            <h4>₹ 1200</h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                            <i class="ri-add-line"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            <% }) %>
+
         </div>
     </div>
-    <%- include('./partials/footer') %>
+</div>
+
+<%- include('./partials/footer') %>

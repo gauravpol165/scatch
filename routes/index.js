@@ -5,14 +5,20 @@ const productModel = require('../models/product-model');
 const userModel = require('../models/user-model');
 
 router.get("/",function(req,res){
-    let error=req.flash("error");
-    res.render("index",{error,loggedin:false });
+    // let error=req.flash("error");
+    res.render("index",{loggedin:false });
 });
 
 router.get("/shop",isLoggedin,async function(req,res){
     let products=await productModel.find();
     let success=req.flash("success") || '';
     res.render("shop",{products,success});   
+});
+
+router.get("/admin",isLoggedin,async function(req,res){
+    let products=await productModel.find();
+    let success=req.flash("success") || '';
+    res.render("admin",{products,success});   
 });
 
 router.get("/cart",isLoggedin,async function(req,res){
