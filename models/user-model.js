@@ -1,16 +1,16 @@
 const mongoose=require('mongoose')
-
 // mongoose.connect("mongoodb://127.0.0.1:27017/scatch");
 
 const userSchema=mongoose.Schema({
     fullname:String,
     email:String,
     password:String,
-    cart:{
-        type:Array,
-        default:[],
-    },
-    isadmin:Boolean,
+    cart:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"product",
+        },
+    ],
     orders:{
         type:Array,
         default:[],
